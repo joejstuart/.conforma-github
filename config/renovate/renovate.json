@@ -12,35 +12,47 @@
     "enabled": true
   },
   "timezone": "America/New_York",
+  "constraints": {
+    "go": "1.23"
+  },
+
   "packageRules": [
     {
       "matchManagers": ["gomod"],
       "matchDepNames": ["go", "toolchain"],
-      "updateTypes": ["patch"],
-      "groupName": "Go version updates"
+      "matchUpdateTypes": ["patch"],
+      "postUpdateOptions": ["gomodTidy1.23"],
+      "groupName": "Go version"
     },
     {
       "matchManagers": ["gomod"],
-      "excludePackageNames": ["go", "toolchain"],
-      "groupName": "Go module updates"
+      "matchPackageNames": [
+        "!go",
+        "!toolchain"
+      ],
+      "postUpdateOptions": ["gomodTidy1.23"],
+      "groupName": "Go module"
     },
     {
       "matchManagers": ["asdf"],
       "matchDepNames": ["golang"],
-      "updateTypes": ["patch"],
-      "groupName": "asdf updates"
+      "matchUpdateTypes": ["patch"],
+      "groupName": "asdf"
     },
     {
       "matchManagers": ["dockerfile"],
       "matchDepNames": ["docker.io/library/golang"],
-      "updateTypes": ["patch"],
-      "groupName": "Go Docker updates"
+      "matchUpdateTypes": ["patch"],
+      "allowedVersions": ">=1.23.0 <1.24.0",
+      "groupName": "Go Docker"
     },
     {
       "matchManagers": ["dockerfile"],
-      "excludePackageNames": ["docker.io/library/golang"],
+      "matchPackageNames": [
+        "!docker.io/library/golang"
+      ],
       "versioning": "semver",
-      "groupName": "Docker updates"
+      "groupName": "Docker"
     }
   ]
 }
